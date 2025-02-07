@@ -7,10 +7,14 @@ class Game {
         this.score = 0;
         this.lives = 3;
         this.gameOver = false;
+        this.waiting = true;
         
         this.initObstacles();
         this.setupEventListeners();
         this.gameLoop();
+        
+        // Show start screen initially
+        document.getElementById('startScreen').classList.remove('hidden');
     }
 
     initObstacles() {
@@ -31,8 +35,9 @@ class Game {
     }
 
     setupEventListeners() {
+        // Movement controls
         document.addEventListener('keydown', (e) => {
-            if (this.gameOver) return;
+            if (this.gameOver || this.waiting) return;
             
             switch(e.key) {
                 case 'ArrowUp':
@@ -49,6 +54,36 @@ class Game {
                     break;
             }
         });
+
+        // Start/Restart controls
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                if (this.waiting) {
+                    this.startGame();
+                } else if (this.gameOver) {
+                    this.reset();
+                }
+            }
+        });
+
+        // Mouse click controls for start screen
+        document.getElementById('startScreen').addEventListener('click', () => {
+            if (this.waiting) {
+                this.startGame();
+            }
+        });
+
+        // Mouse click controls for game over screen
+        document.getElementById('gameOver').addEventListener('click', () => {
+            if (this.gameOver) {
+                this.reset();
+            }
+        });
+    }
+
+    startGame() {
+        this.waiting = false;
+        document.getElementById('startScreen').classList.add('hidden');
     }
 
     checkCollisions() {
@@ -80,14 +115,16 @@ class Game {
         this.score = 0;
         this.lives = 3;
         this.gameOver = false;
+        this.waiting = false;
         this.player.reset();
         document.getElementById('score').textContent = this.score;
         document.getElementById('lives').textContent = this.lives;
         document.getElementById('gameOver').classList.add('hidden');
+        document.getElementById('startScreen').classList.add('hidden');
     }
 
     update() {
-        if (this.gameOver) return;
+        if (this.gameOver || this.waiting) return;
 
         this.obstacles.forEach(obstacle => obstacle.update());
         

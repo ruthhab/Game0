@@ -13,10 +13,14 @@
             <span>Lives: <span id="lives">3</span></span>
         </div>
         <canvas id="gameCanvas" width="600" height="600"></canvas>
-        <div id="gameOver" class="game-over hidden">
+        <div id="startScreen" class="overlay">
+            <h2>Frogger</h2>
+            <p>Press Space or Click to Start</p>
+        </div>
+        <div id="gameOver" class="overlay hidden">
             <h2>Game Over!</h2>
             <p>Final Score: <span id="finalScore">0</span></p>
-            <button onclick="game.reset()">Play Again</button>
+            <p>Press Space or Click to Restart</p>
         </div>
     </div>
     <script src="js/utils.js"></script>
