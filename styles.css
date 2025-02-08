@@ -52,6 +52,83 @@ body {
     margin: 10px 0;
 }
 
+.high-scores {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 8px;
+    border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.high-scores h3 {
+    color: #4CAF50;
+    margin-bottom: 15px;
+    font-size: 24px;
+    text-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.high-scores ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.high-scores li {
+    font-size: 18px;
+    margin: 8px 0;
+    color: #fff;
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+}
+
+#gameOver .high-scores {
+    margin: 25px 0;
+    min-width: 250px;
+}
+
+.score-form {
+    margin: 20px 0;
+}
+
+.score-form input {
+    padding: 8px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    margin-right: 10px;
+    width: 200px;
+}
+
+.score-form button {
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.score-form button:hover {
+    background-color: #45a049;
+}
+
+#pauseScreen {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+#pauseScreen h2 {
+    color: #4CAF50;
+    font-size: 48px;
+    text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
 .hidden {
     display: none;
 }

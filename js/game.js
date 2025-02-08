@@ -8,13 +8,56 @@ class Game {
         this.lives = 3;
         this.gameOver = false;
         this.waiting = true;
+        this.paused = false;
         
         this.initObstacles();
         this.setupEventListeners();
+        this.loadHighScores();
+        this.displayHighScores();
         this.gameLoop();
         
         // Show start screen initially
         document.getElementById('startScreen').classList.remove('hidden');
+    }
+
+    loadHighScores() {
+        this.highScores = JSON.parse(localStorage.getItem('froggerHighScores')) || [];
+    }
+
+    saveHighScore(name, score) {
+        this.highScores.push({ name, score, date: new Date().toISOString() });
+        this.highScores.sort((a, b) => b.score - a.score);
+        this.highScores = this.highScores.slice(0, 5); // Keep top 5 scores
+        localStorage.setItem('froggerHighScores', JSON.stringify(this.highScores));
+        this.displayHighScores();
+    }
+
+    displayHighScores() {
+        const startScoresList = document.getElementById('startTopScores');
+        const gameOverScoresList = document.getElementById('gameOverTopScores');
+        
+        [startScoresList, gameOverScoresList].forEach(scoresList => {
+            if (scoresList) {
+                scoresList.innerHTML = '';
+                this.highScores.forEach(score => {
+                    const li = document.createElement('li');
+                    li.textContent = `${score.name}: ${score.score}`;
+                    scoresList.appendChild(li);
+                });
+            }
+        });
+    }
+
+    handleGameAction() {
+        if (this.waiting) {
+            this.startGame();
+        } else if (this.gameOver) {
+            if (!document.querySelector('.restart-text').classList.contains('hidden')) {
+                this.reset();
+            }
+        } else {
+            this.togglePause();
+        }
     }
 
     initObstacles() {
@@ -37,7 +80,7 @@ class Game {
     setupEventListeners() {
         // Movement controls
         document.addEventListener('keydown', (e) => {
-            if (this.gameOver || this.waiting) return;
+            if (this.gameOver || this.waiting || this.paused) return;
             
             switch(e.key) {
                 case 'ArrowUp':
@@ -55,30 +98,51 @@ class Game {
             }
         });
 
-        // Start/Restart controls
+        // Space bar controls
         document.addEventListener('keydown', (e) => {
-            if (e.code === 'Space') {
-                if (this.waiting) {
-                    this.startGame();
-                } else if (this.gameOver) {
-                    this.reset();
-                }
+            if (e.code === 'Space' || e.key === ' ') {
+                e.preventDefault(); // Prevent space from scrolling page
+                this.handleGameAction();
             }
         });
 
-        // Mouse click controls for start screen
-        document.getElementById('startScreen').addEventListener('click', () => {
-            if (this.waiting) {
-                this.startGame();
+        // Score form submission
+        document.getElementById('scoreForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nameInput = document.getElementById('playerName');
+            const name = nameInput.value.trim();
+            if (name) {
+                this.saveHighScore(name, this.score);
+                document.getElementById('scoreForm').classList.add('hidden');
+                document.querySelector('.restart-text').classList.remove('hidden');
             }
         });
 
-        // Mouse click controls for game over screen
-        document.getElementById('gameOver').addEventListener('click', () => {
-            if (this.gameOver) {
-                this.reset();
+        // Click controls for overlays
+        ['startScreen', 'pauseScreen', 'gameOver'].forEach(screenId => {
+            document.getElementById(screenId).addEventListener('click', (e) => {
+                // Don't trigger if clicking on form elements
+                if (e.target.closest('form')) return;
+                this.handleGameAction();
+            });
+        });
+
+        // Canvas click for pause during gameplay
+        this.canvas.addEventListener('click', () => {
+            if (!this.waiting && !this.gameOver) {
+                this.togglePause();
             }
         });
+    }
+
+    togglePause() {
+        this.paused = !this.paused;
+        const pauseScreen = document.getElementById('pauseScreen');
+        if (this.paused) {
+            pauseScreen.classList.remove('hidden');
+        } else {
+            pauseScreen.classList.add('hidden');
+        }
     }
 
     startGame() {
@@ -106,6 +170,12 @@ class Game {
             this.gameOver = true;
             document.getElementById('gameOver').classList.remove('hidden');
             document.getElementById('finalScore').textContent = this.score;
+            // Show the score form and hide restart text initially
+            document.getElementById('scoreForm').classList.remove('hidden');
+            document.querySelector('.restart-text').classList.add('hidden');
+            document.getElementById('playerName').focus();
+            // Display current high scores
+            this.displayHighScores();
         } else {
             this.player.reset();
         }
@@ -116,15 +186,17 @@ class Game {
         this.lives = 3;
         this.gameOver = false;
         this.waiting = false;
+        this.paused = false;
         this.player.reset();
         document.getElementById('score').textContent = this.score;
         document.getElementById('lives').textContent = this.lives;
         document.getElementById('gameOver').classList.add('hidden');
         document.getElementById('startScreen').classList.add('hidden');
+        document.getElementById('pauseScreen').classList.add('hidden');
     }
 
     update() {
-        if (this.gameOver || this.waiting) return;
+        if (this.gameOver || this.waiting || this.paused) return;
 
         this.obstacles.forEach(obstacle => obstacle.update());
         
