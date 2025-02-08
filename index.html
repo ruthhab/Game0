@@ -16,11 +16,27 @@
         <div id="startScreen" class="overlay">
             <h2>Frogger</h2>
             <p>Press Space or Click to Start</p>
+            <div class="high-scores">
+                <h3>High Scores</h3>
+                <ul id="startTopScores" class="scores-list"></ul>
+            </div>
+        </div>
+        <div id="pauseScreen" class="overlay hidden">
+            <h2>PAUSED</h2>
+            <p>Press Space or Click to Resume</p>
         </div>
         <div id="gameOver" class="overlay hidden">
             <h2>Game Over!</h2>
             <p>Final Score: <span id="finalScore">0</span></p>
-            <p>Press Space or Click to Restart</p>
+            <form id="scoreForm" class="score-form">
+                <input type="text" id="playerName" placeholder="Enter your name" maxlength="20" required>
+                <button type="submit">Submit Score</button>
+            </form>
+            <div class="high-scores">
+                <h3>High Scores</h3>
+                <ul id="gameOverTopScores" class="scores-list"></ul>
+            </div>
+            <p class="restart-text hidden">Press Space or Click to Restart</p>
         </div>
     </div>
     <script src="js/utils.js"></script>
