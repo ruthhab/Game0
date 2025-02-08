@@ -4,12 +4,14 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #333;
+    background-color: #222;
     font-family: Arial, sans-serif;
+    image-rendering: pixelated;
 }
 
 .game-container {
     position: relative;
+    image-rendering: pixelated;
 }
 
 .game-info {
@@ -18,13 +20,26 @@ body {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    color: white;
+    color: #7FFFD4;
     font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 
+        1px 1px 0 #000,
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        2px 2px 0 #FFD700;
+    letter-spacing: 1px;
 }
 
 #gameCanvas {
-    border: 2px solid #fff;
+    border: 4px solid #7FFFD4;
     background-color: #000;
+    box-shadow: 
+        0 0 0 2px #000,
+        0 0 0 6px #FFD700;
+    image-rendering: pixelated;
 }
 
 .overlay {
@@ -32,39 +47,77 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.95);
     padding: 20px;
-    border-radius: 10px;
+    border: 4px solid #7FFFD4;
+    box-shadow: 
+        0 0 0 2px #000,
+        0 0 0 6px #FFD700;
     text-align: center;
-    color: white;
+    color: #7FFFD4;
     cursor: pointer;
     user-select: none;
+    image-rendering: pixelated;
+}
+
+.pixel-text {
+    font-family: 'Arial', sans-serif;
+    font-size: 48px;
+    font-weight: bold;
+    color: #7FFFD4;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 
+        2px 2px 0 #000,
+        -2px -2px 0 #000,
+        2px -2px 0 #000,
+        -2px 2px 0 #000,
+        4px 4px 0 #FFD700;
+    margin: 0;
+    padding: 10px;
+    transform-style: preserve-3d;
+    position: relative;
 }
 
 .overlay h2 {
-    font-size: 32px;
+    font-size: 48px;
     margin-bottom: 20px;
-    color: #4CAF50;
 }
 
 .overlay p {
     font-size: 18px;
     margin: 10px 0;
+    color: #7FFFD4;
+    text-shadow: 
+        1px 1px 0 #000,
+        -1px -1px 0 #000;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .high-scores {
     margin: 20px 0;
     padding: 15px;
     background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 8px;
-    border: 1px solid rgba(76, 175, 80, 0.3);
+    border: 2px solid #7FFFD4;
+    box-shadow: 
+        0 0 0 1px #000,
+        0 0 0 3px #FFD700;
 }
 
 .high-scores h3 {
-    color: #4CAF50;
+    color: #7FFFD4;
     margin-bottom: 15px;
     font-size: 24px;
-    text-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+    text-transform: uppercase;
+    text-shadow: 
+        1px 1px 0 #000,
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        2px 2px 0 #FFD700;
+    letter-spacing: 1px;
 }
 
 .high-scores ul {
@@ -76,8 +129,12 @@ body {
 .high-scores li {
     font-size: 18px;
     margin: 8px 0;
-    color: #fff;
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+    color: #7FFFD4;
+    text-shadow: 
+        1px 1px 0 #000,
+        -1px -1px 0 #000;
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
 #gameOver .high-scores {
@@ -92,41 +149,61 @@ body {
 .score-form input {
     padding: 8px;
     font-size: 16px;
-    border: none;
-    border-radius: 4px;
+    background-color: #000;
+    color: #7FFFD4;
+    border: 2px solid #7FFFD4;
+    box-shadow: 
+        0 0 0 1px #000,
+        0 0 0 3px #FFD700;
+    border-radius: 0;
     margin-right: 10px;
     width: 200px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.score-form input::placeholder {
+    color: #7FFFD4;
+    opacity: 0.5;
 }
 
 .score-form button {
     padding: 8px 16px;
     font-size: 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
+    background-color: #7FFFD4;
+    color: #000;
+    border: 2px solid #000;
+    box-shadow: 
+        2px 2px 0 #000,
+        -2px -2px 0 #000,
+        2px -2px 0 #000,
+        -2px 2px 0 #000,
+        4px 4px 0 #FFD700;
     cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transform: translateY(-2px);
+    transition: transform 0.1s;
 }
 
 .score-form button:hover {
-    background-color: #45a049;
+    background-color: #FFD700;
+}
+
+.score-form button:active {
+    transform: translateY(0);
+    box-shadow: 
+        2px 2px 0 #000,
+        -2px -2px 0 #000,
+        2px -2px 0 #000,
+        -2px 2px 0 #000,
+        2px 2px 0 #FFD700;
 }
 
 #pauseScreen {
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-#pauseScreen h2 {
-    color: #4CAF50;
-    font-size: 48px;
-    text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.1); opacity: 0.8; }
-    100% { transform: scale(1); opacity: 1; }
+    background-color: rgba(0, 0, 0, 0.95);
 }
 
 .hidden {
