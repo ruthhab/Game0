@@ -209,3 +209,51 @@ body {
 .hidden {
     display: none;
 }
+
+/* Victory Screen and Confetti Styles */
+#victoryScreen {
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 1000;
+}
+
+.victory-text {
+    font-size: 36px !important;
+    margin: 20px 0 !important;
+    color: #FFD700 !important;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.confetti {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    animation: confetti 5s ease-in-out infinite;
+}
+
+.confetti:nth-child(1) { background: #FFD700; left: 10%; animation-delay: 0s; }
+.confetti:nth-child(2) { background: #7FFFD4; left: 20%; animation-delay: -1s; }
+.confetti:nth-child(3) { background: #FF69B4; left: 30%; animation-delay: -2s; }
+.confetti:nth-child(4) { background: #87CEEB; left: 40%; animation-delay: -3s; }
+.confetti:nth-child(5) { background: #FFD700; left: 50%; animation-delay: -4s; }
+.confetti:nth-child(6) { background: #7FFFD4; left: 60%; animation-delay: -2.5s; }
+.confetti:nth-child(7) { background: #FF69B4; left: 70%; animation-delay: -1.5s; }
+.confetti:nth-child(8) { background: #87CEEB; left: 80%; animation-delay: -3.5s; }
+.confetti:nth-child(9) { background: #FFD700; left: 90%; animation-delay: -2.8s; }
+.confetti:nth-child(10) { background: #7FFFD4; left: 100%; animation-delay: -1.8s; }
+
+@keyframes confetti {
+    0% {
+        transform: translateY(-100%) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(600px) rotate(360deg);
+        opacity: 0;
+    }
+}

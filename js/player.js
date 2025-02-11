@@ -3,6 +3,8 @@ class Player {
         this.reset();
         this.width = FROG_SIZE;
         this.height = FROG_SIZE;
+        this.successfulFrogs = [];
+        this.maxFrogs = Math.floor(CANVAS_WIDTH / GRID_SIZE);
     }
 
     reset() {
@@ -28,11 +30,40 @@ class Player {
     }
 
     draw(ctx) {
+        // Draw successful frogs
+        this.successfulFrogs.forEach(frog => {
+            ctx.fillStyle = '#0f0';
+            ctx.fillRect(frog.x, frog.y, this.width, this.height);
+        });
+
+        // Draw current frog
         ctx.fillStyle = '#0f0';
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 
     hasReachedGoal() {
-        return this.y <= 0;
+        if (this.y <= 0) {
+            // Check if there's already a frog at this x position
+            const existingFrog = this.successfulFrogs.find(frog => 
+                Math.abs(frog.x - this.x) < GRID_SIZE/2
+            );
+            
+            if (!existingFrog) {
+                this.successfulFrogs.push({x: this.x, y: 0});
+                this.reset();
+                return true;
+            }
+            // If there's already a frog here, move back one space
+            this.y += GRID_SIZE;
+        }
+        return false;
+    }
+
+    isTopRowFull() {
+        return this.successfulFrogs.length >= this.maxFrogs;
+    }
+
+    clearSuccessfulFrogs() {
+        this.successfulFrogs = [];
     }
 }
