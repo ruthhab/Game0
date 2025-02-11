@@ -9,8 +9,12 @@ class Game {
         this.gameOver = false;
         this.waiting = true;
         this.paused = false;
+   AdditionalFeatures
         this.victory = false;
         this.frogsToWin = Math.floor(CANVAS_WIDTH / GRID_SIZE);
+        this.collisionSound = new Audio('Audio/fast-collision-reverb-14611.mp3');
+
+   main
         
         this.initObstacles();
         this.setupEventListeners();
@@ -170,6 +174,7 @@ class Game {
     }
 
     loseLife() {
+        this.collisionSound.play();
         this.lives--;
         document.getElementById('lives').textContent = this.lives;
         
