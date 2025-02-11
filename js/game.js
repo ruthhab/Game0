@@ -9,6 +9,7 @@ class Game {
         this.gameOver = false;
         this.waiting = true;
         this.paused = false;
+        this.collisionSound = new Audio('Audio/fast-collision-reverb-14611.mp3');
         
         this.initObstacles();
         this.setupEventListeners();
@@ -163,6 +164,7 @@ class Game {
     }
 
     loseLife() {
+        this.collisionSound.play();
         this.lives--;
         document.getElementById('lives').textContent = this.lives;
         
