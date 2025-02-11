@@ -9,7 +9,12 @@ class Game {
         this.gameOver = false;
         this.waiting = true;
         this.paused = false;
+   AdditionalFeatures
+        this.victory = false;
+        this.frogsToWin = Math.floor(CANVAS_WIDTH / GRID_SIZE);
         this.collisionSound = new Audio('Audio/fast-collision-reverb-14611.mp3');
+
+   main
         
         this.initObstacles();
         this.setupEventListeners();
@@ -52,7 +57,7 @@ class Game {
     handleGameAction() {
         if (this.waiting) {
             this.startGame();
-        } else if (this.gameOver) {
+        } else if (this.gameOver || this.victory) {
             if (!document.querySelector('.restart-text').classList.contains('hidden')) {
                 this.reset();
             }
@@ -81,7 +86,7 @@ class Game {
     setupEventListeners() {
         // Movement controls
         document.addEventListener('keydown', (e) => {
-            if (this.gameOver || this.waiting || this.paused) return;
+            if (this.gameOver || this.waiting || this.paused || this.victory) return;
             
             switch(e.key) {
                 case 'ArrowUp':
@@ -120,7 +125,7 @@ class Game {
         });
 
         // Click controls for overlays
-        ['startScreen', 'pauseScreen', 'gameOver'].forEach(screenId => {
+        ['startScreen', 'pauseScreen', 'gameOver', 'victoryScreen'].forEach(screenId => {
             document.getElementById(screenId).addEventListener('click', (e) => {
                 // Don't trigger if clicking on form elements
                 if (e.target.closest('form')) return;
@@ -130,7 +135,7 @@ class Game {
 
         // Canvas click for pause during gameplay
         this.canvas.addEventListener('click', () => {
-            if (!this.waiting && !this.gameOver) {
+            if (!this.waiting && !this.gameOver && !this.victory) {
                 this.togglePause();
             }
         });
@@ -159,7 +164,12 @@ class Game {
         if (this.player.hasReachedGoal()) {
             this.score++;
             document.getElementById('score').textContent = this.score;
-            this.player.reset();
+            document.getElementById('frogsToWin').textContent = this.frogsToWin - this.player.successfulFrogs.length;
+            
+            if (this.player.isTopRowFull()) {
+                this.victory = true;
+                document.getElementById('victoryScreen').classList.remove('hidden');
+            }
         }
     }
 
@@ -189,16 +199,20 @@ class Game {
         this.gameOver = false;
         this.waiting = false;
         this.paused = false;
+        this.victory = false;
         this.player.reset();
+        this.player.clearSuccessfulFrogs();
         document.getElementById('score').textContent = this.score;
         document.getElementById('lives').textContent = this.lives;
+        document.getElementById('frogsToWin').textContent = this.frogsToWin;
         document.getElementById('gameOver').classList.add('hidden');
         document.getElementById('startScreen').classList.add('hidden');
         document.getElementById('pauseScreen').classList.add('hidden');
+        document.getElementById('victoryScreen').classList.add('hidden');
     }
 
     update() {
-        if (this.gameOver || this.waiting || this.paused) return;
+        if (this.gameOver || this.waiting || this.paused || this.victory) return;
 
         this.obstacles.forEach(obstacle => obstacle.update());
         
