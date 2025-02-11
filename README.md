@@ -1,16 +1,14 @@
-Frogger Game Development Report
-
 Features of the Game
 
 The game is a modern take on the classic Frogger concept, where the player controls a frog attempting to cross a series of obstacles to reach a safe zone. The current features include:
 
-	Start Screen: Displays game instructions before the player starts.
-	Score System: Tracks successful crossings.
-	Lives System: The player starts with three lives, losing one upon collision.
-	Pause Functionality: Allows pausing and resuming the game using the spacebar.
-	Game Over Screen: Displays the final score when all lives are lost.
-	Obstacle Movement: Cars and other obstacles move across the screen, requiring precise timing to avoid.
-	Collision Sound Effect: A sound is triggered when the frog collides with an obstacle to enhance feedback.
+- Start Screen: Displays game instructions before the player starts.
+- Score System: Tracks successful crossings.
+- Lives System: The player starts with three lives, losing one upon collision.
+- Pause Functionality: Allows pausing and resuming the game using the spacebar.
+- Game Over Screen: Displays the final score when all lives are lost.
+- Obstacle Movement: Cars and other obstacles move across the screen, requiring precise timing to avoid.
+- Collision Sound Effect: A sound is triggered when the frog collides with an obstacle to enhance feedback.
 
 
 Challenges Faced and Solutions
